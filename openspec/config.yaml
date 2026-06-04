@@ -1,0 +1,15 @@
+project: meal-app-docs
+language: es
+source_of_truth: meal-app-docs
+strict_tdd:
+  enabled: true
+  backend_test_command: cd ../my_food_back && mix test
+review:
+  changed_lines_budget: 400
+  pr_strategy: auto-forecast
+repos:
+  backend: ../my_food_back
+  frontend: ../my-expo-app
+notes:
+  - Shared docs are the canonical product/backend contract.
+  - Do not duplicate decisions into app repos except pointers.
