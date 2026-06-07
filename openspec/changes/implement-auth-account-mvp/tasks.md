@@ -40,20 +40,20 @@ Chain strategy: stacked-to-main
 ## Work Unit 2 — Email code request/verify primitives (PR 2)
 
 ### RED
-- [ ] Add failing tests in `../my_food_back/test/my_food_back/auth/email_code_test.exs` for signup/login request rules: hashed 6-digit code only, no User on request, duplicate signup `email_already_exists`, unknown login `email_not_found`, 10-minute expiry, 5-attempt cap, new code invalidation, 60-second cooldown, and stable `rate_limited` result.
-- [ ] Add Swoosh/test delivery assertions or adapter fakes in `../my_food_back/test/support/` without exposing plaintext code in DB assertions.
+- [x] Add failing tests in `../my_food_back/test/my_food_back/auth/email_code_test.exs` for signup/login request rules: hashed 6-digit code only, no User on request, duplicate signup `email_already_exists`, unknown login `email_not_found`, 10-minute expiry, 5-attempt cap, new code invalidation, 60-second cooldown, and stable `rate_limited` result.
+- [x] Add Swoosh/test delivery assertions or adapter fakes in `../my_food_back/test/support/` without exposing plaintext code in DB assertions. (Used Swoosh test assertions in the focused context test; no separate fake module was needed.)
 
 ### GREEN
-- [ ] Generate migrations for `email_codes` and persisted rate-limit events (or the minimal persisted structures chosen for email/IP/device practical limits) under `../my_food_back/priv/repo/migrations/`.
-- [ ] Implement `../my_food_back/lib/my_food_back/auth/email_code.ex`, core request/verify functions in `../my_food_back/lib/my_food_back/auth.ex`, and stable auth error tuples/codes.
-- [ ] Implement `../my_food_back/lib/my_food_back/email_delivery.ex` with a Swoosh-backed adapter boundary using existing `MyFoodBack.Mailer` local/test configuration.
-- [ ] Implement `../my_food_back/lib/my_food_back/rate_limits.ex` for cooldown plus email/IP/device practical rate checks, hashing raw identifiers before persistence.
+- [x] Generate migrations for `email_codes` and persisted rate-limit events (or the minimal persisted structures chosen for email/IP/device practical limits) under `../my_food_back/priv/repo/migrations/`.
+- [x] Implement `../my_food_back/lib/my_food_back/auth/email_code.ex`, core request/verify functions in `../my_food_back/lib/my_food_back/auth.ex`, and stable auth error tuples/codes.
+- [x] Implement `../my_food_back/lib/my_food_back/email_delivery.ex` with a Swoosh-backed adapter boundary using existing `MyFoodBack.Mailer` local/test configuration.
+- [x] Implement `../my_food_back/lib/my_food_back/rate_limits.ex` for cooldown plus email/IP/device practical rate checks, hashing raw identifiers before persistence.
 
 ### TRIANGULATE / VERIFY
-- [ ] Add tests for both `signup` and `login` flows sharing the same security rules without cross-invalidating each other.
-- [ ] Verify with `cd ../my_food_back && mix test test/my_food_back/auth/email_code_test.exs`.
-- [ ] Acceptance mapping: Explicit Signup Code Request, Explicit Login Code Request, Email Code Security Rules, and Standard Error Response Contract.
-- [ ] Rollback boundary: remove email-code/rate-limit migrations and context code; PR 1 account graph remains usable independently.
+- [x] Add tests for both `signup` and `login` flows sharing the same security rules without cross-invalidating each other.
+- [x] Verify with `cd ../my_food_back && mix test test/my_food_back/auth/email_code_test.exs`.
+- [x] Acceptance mapping: Explicit Signup Code Request, Explicit Login Code Request, Email Code Security Rules, and Standard Error Response Contract.
+- [x] Rollback boundary: remove email-code/rate-limit migrations and context code; PR 1 account graph remains usable independently.
 
 ## Work Unit 3 — Sessions, tokens, refresh, and logout (PR 3)
 
