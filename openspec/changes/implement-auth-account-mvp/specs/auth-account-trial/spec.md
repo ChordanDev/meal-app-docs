@@ -4,6 +4,8 @@
 
 Define the Slice 1 backend contract for explicit email-code authentication, Individual Account creation, device-scoped sessions, `/me`, and the Trial Period access gate for the individual-first MVP.
 
+Google, Facebook, Apple, and other social/OAuth identity providers are intentionally out of scope for this MVP slice. They require a separate post-MVP specification covering provider token validation, account linking, and provider-specific edge cases.
+
 ## Requirements
 
 ### Requirement: Explicit Signup Code Request
@@ -19,7 +21,11 @@ The request payload MUST be:
 A successful response MUST indicate that a code was accepted for delivery without exposing the code value:
 
 ```json
-{ "status": "code_sent", "expiresInSeconds": 600, "resendAvailableInSeconds": 60 }
+{
+  "status": "code_sent",
+  "expiresInSeconds": 600,
+  "resendAvailableInSeconds": 60
+}
 ```
 
 If the email already belongs to a User, the system MUST reject the request with error code `email_already_exists`.
@@ -45,7 +51,11 @@ The system MUST verify signup codes through `POST /auth/signup/verify-code` and,
 The request payload MUST be:
 
 ```json
-{ "email": "user@example.com", "code": "123456", "deviceId": "optional-device-id" }
+{
+  "email": "user@example.com",
+  "code": "123456",
+  "deviceId": "optional-device-id"
+}
 ```
 
 A successful response MUST include short-lived and long-lived session credentials and a `/me`-compatible current user snapshot:
@@ -56,7 +66,11 @@ A successful response MUST include short-lived and long-lived session credential
   "refreshToken": "string",
   "tokenType": "Bearer",
   "me": {
-    "user": { "id": "string", "email": "user@example.com", "displayName": null },
+    "user": {
+      "id": "string",
+      "email": "user@example.com",
+      "displayName": null
+    },
     "account": {
       "id": "string",
       "type": "individual",
@@ -93,7 +107,11 @@ The request payload MUST be:
 A successful response MUST be:
 
 ```json
-{ "status": "code_sent", "expiresInSeconds": 600, "resendAvailableInSeconds": 60 }
+{
+  "status": "code_sent",
+  "expiresInSeconds": 600,
+  "resendAvailableInSeconds": 60
+}
 ```
 
 If the email does not belong to a User, the system MUST reject the request with error code `email_not_found`.
@@ -117,7 +135,11 @@ The system MUST verify login codes through `POST /auth/login/verify-code` and cr
 The request payload MUST be:
 
 ```json
-{ "email": "user@example.com", "code": "123456", "deviceId": "optional-device-id" }
+{
+  "email": "user@example.com",
+  "code": "123456",
+  "deviceId": "optional-device-id"
+}
 ```
 
 A successful response MUST include `accessToken`, `refreshToken`, `tokenType: Bearer`, and a `/me`-compatible `me` object.
@@ -214,7 +236,11 @@ A successful response MUST follow this shape:
 
 ```json
 {
-  "user": { "id": "string", "email": "user@example.com", "displayName": "string|null" },
+  "user": {
+    "id": "string",
+    "email": "user@example.com",
+    "displayName": "string|null"
+  },
   "account": {
     "id": "string",
     "type": "individual",
