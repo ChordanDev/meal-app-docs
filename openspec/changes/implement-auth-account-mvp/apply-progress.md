@@ -1,5 +1,7 @@
 # Apply Progress: implement-auth-account-mvp
 
+> Note: each Work Unit's `Remaining tasks` block is a historical snapshot from the moment that unit finished. Current source-of-truth task status is `tasks.md`; by Work Unit 4, backend implementation tasks are complete. Remaining unchecked items are frontend-handoff/final-audit items only.
+
 ## 2026-06-07 — Work Unit 1: Account graph schema and access calculation
 
 ### Structured status consumed

@@ -93,12 +93,12 @@ Chain strategy: stacked-to-main
 
 ## Frontend contract pointer tasks only (no frontend implementation in this change)
 
-- [ ] After backend PRs pass, add a pointer in the relevant frontend integration issue/branch to `meal-app-docs/openspec/changes/implement-auth-account-mvp/specs/auth-account-trial/spec.md`; do not duplicate product decisions into `../my-expo-app`.
-- [ ] Confirm frontend consumers use `/api/me` `account.access.canUseApp` as the primary gate and handle `trial_expired`, but leave screen/token-storage implementation to the frontend slice.
+- [ ] After backend PRs pass, add a pointer in the relevant frontend integration issue/branch to `meal-app-docs/openspec/changes/implement-auth-account-mvp/specs/auth-account-trial/spec.md`; do not duplicate product decisions into `../my-expo-app`. (Deferred until frontend slice starts.)
+- [ ] Confirm frontend consumers use `/api/me` `account.access.canUseApp` as the primary gate and handle `trial_expired`, but leave screen/token-storage implementation to the frontend slice. (Deferred until frontend slice starts.)
 
 ## Final acceptance checklist
 
-- [ ] All spec scenarios in `openspec/changes/implement-auth-account-mvp/specs/auth-account-trial/spec.md` have corresponding automated backend tests or an explicit justified exception.
+- [x] All backend spec scenarios in `openspec/changes/implement-auth-account-mvp/specs/auth-account-trial/spec.md` have corresponding automated backend tests or an explicit justified exception. Frontend-only consumption scenarios are deferred to the frontend slice.
 - [x] Strict TDD evidence is present in commit history or PR notes for each work unit: RED test first, GREEN implementation, TRIANGULATE edge case, REFACTOR/VERIFY.
 - [x] Full test command passes: `cd ../my_food_back && mix test`.
 - [x] Final precommit passes: `cd ../my_food_back && mix precommit`.
