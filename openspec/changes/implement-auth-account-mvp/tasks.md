@@ -75,31 +75,31 @@ Chain strategy: stacked-to-main
 ## Work Unit 4 — JSON API routes, controllers, plugs, and `/me` (PR 4)
 
 ### RED
-- [ ] Add failing controller tests in `../my_food_back/test/my_food_back_web/controllers/auth_controller_test.exs` for all auth endpoints under `/api/auth/*`, exact success response shapes, and `error.code` envelopes.
-- [ ] Add failing controller tests in `../my_food_back/test/my_food_back_web/controllers/me_controller_test.exs` for authenticated `/api/me`, unauthenticated rejection, omitted full preferences, active trial access, expired trial lock, and active subscription override.
+- [x] Add failing controller tests in `../my_food_back/test/my_food_back_web/controllers/auth_controller_test.exs` for all auth endpoints under `/api/auth/*`, exact success response shapes, and `error.code` envelopes.
+- [x] Add failing controller tests in `../my_food_back/test/my_food_back_web/controllers/me_controller_test.exs` for authenticated `/api/me`, unauthenticated rejection, omitted full preferences, active trial access, expired trial lock, and active subscription override.
 
 ### GREEN
-- [ ] Update `../my_food_back/lib/my_food_back_web/router.ex` with `/api/auth/signup/request-code`, `/api/auth/signup/verify-code`, `/api/auth/login/request-code`, `/api/auth/login/verify-code`, `/api/auth/refresh`, authenticated `/api/auth/logout`, and authenticated `/api/me`.
-- [ ] Implement `../my_food_back/lib/my_food_back_web/controllers/auth_controller.ex` and `auth_json.ex` using Phoenix 1.8 JSON serializers, not `Phoenix.View`.
-- [ ] Implement `../my_food_back/lib/my_food_back_web/controllers/me_controller.ex` and `me_json.ex` with the spec response shape and no full preferences collection.
-- [ ] Implement `../my_food_back/lib/my_food_back_web/plugs/authenticate_session.ex` and optional `require_unlocked_account.ex` for future internal app-data routes; do not apply locked-account denial to auth routes or `/me`.
+- [x] Update `../my_food_back/lib/my_food_back_web/router.ex` with `/api/auth/signup/request-code`, `/api/auth/signup/verify-code`, `/api/auth/login/request-code`, `/api/auth/login/verify-code`, `/api/auth/refresh`, authenticated `/api/auth/logout`, and authenticated `/api/me`.
+- [x] Implement `../my_food_back/lib/my_food_back_web/controllers/auth_controller.ex` and `auth_json.ex` using Phoenix 1.8 JSON serializers, not `Phoenix.View`.
+- [x] Implement `../my_food_back/lib/my_food_back_web/controllers/me_controller.ex` and `me_json.ex` with the spec response shape and no full preferences collection.
+- [x] Implement `../my_food_back/lib/my_food_back_web/plugs/authenticate_session.ex` and optional `require_unlocked_account.ex` for future internal app-data routes; do not apply locked-account denial to auth routes or `/me`.
 
 ### TRIANGULATE / VERIFY
-- [ ] Add integration tests proving request-code → verify-code → `/me` works for signup and login, including stable codes: `code_expired`, `code_invalid`, `too_many_attempts`, `rate_limited`, `email_already_exists`, `email_not_found`.
-- [ ] Verify with `cd ../my_food_back && mix test`.
-- [ ] Run final backend quality gate per `../my_food_back/AGENTS.md`: `cd ../my_food_back && mix precommit`.
-- [ ] Acceptance mapping: Current User Contract, Protected App Data Gate backend SHOULD behavior, Standard Error Response Contract, and all endpoint response shapes in `spec.md`.
-- [ ] Rollback boundary: remove router entries/controllers/plugs while preserving lower-level contexts and migrations if needed.
+- [x] Add integration tests proving request-code → verify-code → `/me` works for signup and login, including stable codes: `code_expired`, `code_invalid`, `too_many_attempts`, `rate_limited`, `email_already_exists`, `email_not_found`.
+- [x] Verify with `cd ../my_food_back && mix test`.
+- [x] Run final backend quality gate per `../my_food_back/AGENTS.md`: `cd ../my_food_back && mix precommit`.
+- [x] Acceptance mapping: Current User Contract, Protected App Data Gate backend SHOULD behavior, Standard Error Response Contract, and all endpoint response shapes in `spec.md`.
+- [x] Rollback boundary: remove router entries/controllers/plugs while preserving lower-level contexts and migrations if needed.
 
 ## Frontend contract pointer tasks only (no frontend implementation in this change)
 
-- [ ] After backend PRs pass, add a pointer in the relevant frontend integration issue/branch to `meal-app-docs/openspec/changes/implement-auth-account-mvp/specs/auth-account-trial/spec.md`; do not duplicate product decisions into `../my-expo-app`.
-- [ ] Confirm frontend consumers use `/api/me` `account.access.canUseApp` as the primary gate and handle `trial_expired`, but leave screen/token-storage implementation to the frontend slice.
+- [ ] After backend PRs pass, add a pointer in the relevant frontend integration issue/branch to `meal-app-docs/openspec/changes/implement-auth-account-mvp/specs/auth-account-trial/spec.md`; do not duplicate product decisions into `../my-expo-app`. (Deferred until frontend slice starts.)
+- [ ] Confirm frontend consumers use `/api/me` `account.access.canUseApp` as the primary gate and handle `trial_expired`, but leave screen/token-storage implementation to the frontend slice. (Deferred until frontend slice starts.)
 
 ## Final acceptance checklist
 
-- [ ] All spec scenarios in `openspec/changes/implement-auth-account-mvp/specs/auth-account-trial/spec.md` have corresponding automated backend tests or an explicit justified exception.
-- [ ] Strict TDD evidence is present in commit history or PR notes for each work unit: RED test first, GREEN implementation, TRIANGULATE edge case, REFACTOR/VERIFY.
-- [ ] Full test command passes: `cd ../my_food_back && mix test`.
-- [ ] Final precommit passes: `cd ../my_food_back && mix precommit`.
-- [ ] Shared docs remain the source of truth; backend/frontend repos contain implementation and pointers only, not copied product decisions.
+- [x] All backend spec scenarios in `openspec/changes/implement-auth-account-mvp/specs/auth-account-trial/spec.md` have corresponding automated backend tests or an explicit justified exception. Frontend-only consumption scenarios are deferred to the frontend slice.
+- [x] Strict TDD evidence is present in commit history or PR notes for each work unit: RED test first, GREEN implementation, TRIANGULATE edge case, REFACTOR/VERIFY.
+- [x] Full test command passes: `cd ../my_food_back && mix test`.
+- [x] Final precommit passes: `cd ../my_food_back && mix precommit`.
+- [x] Shared docs remain the source of truth; backend/frontend repos contain implementation and pointers only, not copied product decisions.

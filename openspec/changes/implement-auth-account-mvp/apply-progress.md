@@ -1,5 +1,7 @@
 # Apply Progress: implement-auth-account-mvp
 
+> Note: each Work Unit's `Remaining tasks` block is a historical snapshot from the moment that unit finished. Current source-of-truth task status is `tasks.md`; by Work Unit 4, backend implementation tasks are complete. Remaining unchecked items are frontend-handoff/final-audit items only.
+
 ## 2026-06-07 — Work Unit 1: Account graph schema and access calculation
 
 ### Structured status consumed
@@ -317,4 +319,89 @@ Unchecked persisted tasks remain:
 - [ ] Full test command passes: `cd ../my_food_back && mix test`.
 - [ ] Final precommit passes: `cd ../my_food_back && mix precommit`.
 - [ ] Shared docs remain the source of truth; backend/frontend repos contain implementation and pointers only, not copied product decisions.
+```
+
+## 2026-06-08 — Work Unit 4: JSON API routes, controllers, plugs, and `/me`
+
+### Structured status consumed
+
+- `changeName`: `implement-auth-account-mvp`
+- `phase`: `apply`
+- `artifactStore`: `openspec`
+- `deliveryPath`: `auto-chain`
+- `assignedWorkUnit`: `Work Unit 4 — API controllers/routes/plugs/me`
+- `actionContext.allowedEditRoots`:
+  - `/Users/luccagiordana/Documents/proyectoApp/my_food_back`
+  - `/Users/luccagiordana/Documents/proyectoApp/meal-app-docs/openspec/changes/implement-auth-account-mvp`
+- Action context warnings: none.
+
+### Workload / PR boundary
+
+- Implemented only Work Unit 4 on backend branch `feat/auth-api-controllers`.
+- Did not implement frontend, onboarding profile CRUD, preferences, billing provider integration, planner, or app-data routes.
+- Approximate backend additions are above the 400-line review budget due to controller integration tests plus web-layer modules. The PR boundary is still cohesive: Phoenix routes/controllers/serializers/plugs and `/me` only.
+
+### Completed tasks and persisted checkbox updates
+
+Updated `openspec/changes/implement-auth-account-mvp/tasks.md` from `- [ ]` to `- [x]` for all Work Unit 4 RED, GREEN, and TRIANGULATE / VERIFY tasks:
+
+- Controller tests for `/api/auth/*` and `/api/me` success/error response shapes.
+- Router entries for auth request/verify/refresh plus authenticated logout and `/me`.
+- `AuthController`, `AuthJSON`, `MeController`, and `MeJSON` Phoenix 1.8 JSON implementation.
+- `AuthenticateSession` and `RequireUnlockedAccount` plugs.
+- Integration tests for signup request-code → verify-code, login verify, refresh, logout, `/me`, and stable error codes.
+- Full backend test and `mix precommit` verification.
+- Work Unit 4 acceptance/rollback notes.
+
+### Files changed
+
+Backend (`../my_food_back`):
+
+- `lib/my_food_back/auth.ex`
+- `lib/my_food_back_web/router.ex`
+- `lib/my_food_back_web/controllers/auth_controller.ex`
+- `lib/my_food_back_web/controllers/auth_json.ex`
+- `lib/my_food_back_web/controllers/me_controller.ex`
+- `lib/my_food_back_web/controllers/me_json.ex`
+- `lib/my_food_back_web/plugs/authenticate_session.ex`
+- `lib/my_food_back_web/plugs/require_unlocked_account.ex`
+- `test/my_food_back_web/controllers/auth_controller_test.exs`
+- `test/my_food_back_web/controllers/me_controller_test.exs`
+
+OpenSpec:
+
+- `openspec/changes/implement-auth-account-mvp/tasks.md`
+- `openspec/changes/implement-auth-account-mvp/apply-progress.md`
+
+### TDD Cycle Evidence
+
+| Cycle | Phase | Command | Result | Evidence |
+|-------|-------|---------|--------|----------|
+| WU4 | RED | `cd my_food_back && mix test test/my_food_back_web/controllers/auth_controller_test.exs test/my_food_back_web/controllers/me_controller_test.exs` | Failed as expected | 11 controller tests failed with `404 Not Found`, proving tests existed before routes/controllers/plugs. |
+| WU4 | GREEN | `cd my_food_back && mix test test/my_food_back_web/controllers/auth_controller_test.exs test/my_food_back_web/controllers/me_controller_test.exs` | Passed | Controller suites passed: `11 tests, 0 failures`. |
+| WU4 | TRIANGULATE | `cd my_food_back && mix test test/my_food_back_web/controllers/auth_controller_test.exs test/my_food_back_web/controllers/me_controller_test.exs` | Passed | Added endpoint-level coverage for `code_expired`, `too_many_attempts`, and `rate_limited`; focused suites passed: `12 tests, 0 failures`. |
+| WU4 | VERIFY | `cd my_food_back && mix test` | Passed | Full backend suite passed: `40 tests, 0 failures`. |
+| WU4 | PRECOMMIT | `cd my_food_back && mix precommit` | Passed | Backend quality gate passed: `40 tests, 0 failures`. |
+
+### Acceptance mapping
+
+- Auth endpoint response shapes: covered by `AuthControllerTest` for signup request, signup verify, login request, login verify, refresh, and logout.
+- Standard Error Response Contract: covered by endpoint-level tests for `email_already_exists`, `email_not_found`, `code_invalid`, `too_many_attempts`, `code_expired`, `rate_limited`, and unauthenticated `/me`.
+- Current User Contract: covered by `MeControllerTest` asserting user, account, membership, onboarding, access state, camelCase fields, and omitted full preferences.
+- Trial Gate Access Semantics: covered by `/api/me` tests for active trial, expired trial lock, and active subscription override.
+- Protected App Data Gate backend SHOULD behavior: `RequireUnlockedAccount` plug added for future app-data routes; it is not applied to auth routes or `/me`.
+
+### Deviations from design
+
+- `POST /api/auth/logout` is authenticated and also requires the submitted `refreshToken` body to revoke via the existing lower-level `Auth.logout/2` primitive. This matches the current primitive boundary and avoids introducing a second session-revocation function in Work Unit 4.
+- `Auth.current_user_snapshot/2` was made public so controllers/plugs can reuse the existing `/me` snapshot logic instead of duplicating account serialization logic.
+
+### Remaining tasks
+
+Unchecked persisted tasks remain:
+
+```text
+- [ ] After backend PRs pass, add a pointer in the relevant frontend integration issue/branch to `meal-app-docs/openspec/changes/implement-auth-account-mvp/specs/auth-account-trial/spec.md`; do not duplicate product decisions into `../my-expo-app`.
+- [ ] Confirm frontend consumers use `/api/me` `account.access.canUseApp` as the primary gate and handle `trial_expired`, but leave screen/token-storage implementation to the frontend slice.
+- [ ] All spec scenarios in `openspec/changes/implement-auth-account-mvp/specs/auth-account-trial/spec.md` have corresponding automated backend tests or an explicit justified exception.
 ```
