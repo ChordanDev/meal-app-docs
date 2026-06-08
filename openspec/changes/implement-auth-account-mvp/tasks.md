@@ -58,19 +58,19 @@ Chain strategy: stacked-to-main
 ## Work Unit 3 — Sessions, tokens, refresh, and logout (PR 3)
 
 ### RED
-- [ ] Add failing tests in `../my_food_back/test/my_food_back/auth/session_test.exs` for device-scoped session creation, second-device login preserving first session, valid refresh rotating refresh token, old/revoked refresh rejection, and logout revoking only current session.
+- [x] Add failing tests in `../my_food_back/test/my_food_back/auth/session_test.exs` for device-scoped session creation, second-device login preserving first session, valid refresh rotating refresh token, old/revoked refresh rejection, and logout revoking only current session.
 
 ### GREEN
-- [ ] Generate `sessions` migration under `../my_food_back/priv/repo/migrations/` with hashed refresh token, device/IP/user-agent metadata, expiry, and revocation fields.
-- [ ] Implement `../my_food_back/lib/my_food_back/auth/session.ex` and `../my_food_back/lib/my_food_back/auth/tokens.ex` using short-lived signed access tokens and high-entropy refresh secrets stored only as hashes.
-- [ ] Extend `../my_food_back/lib/my_food_back/auth.ex` so signup verification transaction consumes code, creates account graph, creates session, and returns tokens; login verification consumes code and creates only a new session.
-- [ ] Implement refresh-token rotation and current-session logout semantics.
+- [x] Generate `sessions` migration under `../my_food_back/priv/repo/migrations/` with hashed refresh token, device/IP/user-agent metadata, expiry, and revocation fields.
+- [x] Implement `../my_food_back/lib/my_food_back/auth/session.ex` and `../my_food_back/lib/my_food_back/auth/tokens.ex` using short-lived signed access tokens and high-entropy refresh secrets stored only as hashes.
+- [x] Extend `../my_food_back/lib/my_food_back/auth.ex` so signup verification transaction consumes code, creates account graph, creates session, and returns tokens; login verification consumes code and creates only a new session.
+- [x] Implement refresh-token rotation and current-session logout semantics.
 
 ### TRIANGULATE / VERIFY
-- [ ] Add locked-account login test proving authentication still succeeds and returned `me.account.access.canUseApp` can be false after trial expiry.
-- [ ] Verify with `cd ../my_food_back && mix test test/my_food_back/auth/session_test.exs test/my_food_back/auth/email_code_test.exs`.
-- [ ] Acceptance mapping: Signup Code Verification Creates User Account And Session, Login Code Verification Creates Device Session, Session Refresh And Logout, Locked account can still authenticate.
-- [ ] Rollback boundary: disable session-dependent APIs and revoke/delete non-production sessions without deleting users/accounts.
+- [x] Add locked-account login test proving authentication still succeeds and returned `me.account.access.canUseApp` can be false after trial expiry.
+- [x] Verify with `cd ../my_food_back && mix test test/my_food_back/auth/session_test.exs test/my_food_back/auth/email_code_test.exs`.
+- [x] Acceptance mapping: Signup Code Verification Creates User Account And Session, Login Code Verification Creates Device Session, Session Refresh And Logout, Locked account can still authenticate.
+- [x] Rollback boundary: disable session-dependent APIs and revoke/delete non-production sessions without deleting users/accounts.
 
 ## Work Unit 4 — JSON API routes, controllers, plugs, and `/me` (PR 4)
 
