@@ -40,6 +40,7 @@ The backend implementation target is Phoenix/Elixir in `../my_food_back`. This O
 
 ### Out of scope
 
+- Google, Facebook, Apple, or any other social/OAuth identity provider login. Social login is a post-MVP capability and must be specified separately, including account linking with email-code users and provider-specific edge cases.
 - Onboarding profile collection beyond exposing onboarding status and preserving endpoint placeholders already defined in the PRD.
 - Preference CRUD implementation.
 - Billing provider integration; subscription status may be represented or mocked sufficiently to compute access state.

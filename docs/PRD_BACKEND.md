@@ -55,6 +55,8 @@ Expected error codes:
 
 ### Session model
 
+- MVP authentication supports email-code signup/login only.
+- Google, Facebook, and Apple Sign-In are out of scope for the MVP and require a separate post-MVP identity-provider/account-linking design.
 - Each device has its own session.
 - `accessToken`: short-lived.
 - `refreshToken`: long-lived and revocable.

@@ -49,6 +49,7 @@ Un asistente personal de nutrición "AI-Native" que gestiona el ciclo completo d
 
 - **Backend**: El backend del producto será implementado en Elixir + Phoenix.
 - **Autenticación MVP**: El acceso será passwordless mediante código de un solo uso enviado por email. No se usará contraseña en el MVP.
+- **Social Login Post-MVP**: Google, Facebook y Apple Sign-In quedan fuera del MVP. Podrán agregarse después como proveedores alternativos de identidad vinculados al mismo modelo de `User`, resolviendo account linking y reglas específicas de cada proveedor en un cambio separado.
 - **Creación de Cuenta MVP**: La app tendrá un flujo explícito de "Crear cuenta". El registro no será silencioso: el usuario ingresa solo su email, confirma el código recibido y recién entonces se crea su Usuario y su Cuenta Individual.
 - **Onboarding posterior**: Nombre, restricciones alimentarias, preferencias, nivel de cocina y cantidad de personas para las que cocina se capturan después de la autenticación, no durante la creación inicial.
 - **Gateways de Autenticación MVP**:
