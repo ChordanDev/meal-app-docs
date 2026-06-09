@@ -93,8 +93,8 @@ Chain strategy: stacked-to-main
 
 ## Frontend contract pointer tasks only (no frontend implementation in this change)
 
-- [ ] After backend PRs pass, add a pointer in the relevant frontend integration issue/branch to `meal-app-docs/openspec/changes/implement-auth-account-mvp/specs/auth-account-trial/spec.md`; do not duplicate product decisions into `../my-expo-app`. (Deferred until frontend slice starts.)
-- [ ] Confirm frontend consumers use `/api/me` `account.access.canUseApp` as the primary gate and handle `trial_expired`, but leave screen/token-storage implementation to the frontend slice. (Deferred until frontend slice starts.)
+- [x] After backend PRs pass, add a pointer in the relevant frontend integration issue/branch to `meal-app-docs/openspec/changes/implement-auth-account-mvp/specs/auth-account-trial/spec.md`; do not duplicate product decisions into `../my-expo-app`. Evidence: `../my-expo-app/docs/SHARED_DOCS.md` now points to this OpenSpec contract.
+- [x] Confirm frontend consumers use `/api/me` `account.access.canUseApp` as the primary gate and handle `trial_expired`, but leave screen/token-storage implementation to the frontend slice. Evidence: `../my-expo-app/src/services/authService.ts` loads `/api/me`; `../my-expo-app/src/features/auth/context/AuthContext.tsx` derives `canUseApp` and `isTrialExpired`; `../my-expo-app/app/index.tsx` and `../my-expo-app/app/(tabs)/_layout.tsx` gate internal app loading from that state.
 
 ## Final acceptance checklist
 
@@ -103,3 +103,12 @@ Chain strategy: stacked-to-main
 - [x] Full test command passes: `cd ../my_food_back && mix test`.
 - [x] Final precommit passes: `cd ../my_food_back && mix precommit`.
 - [x] Shared docs remain the source of truth; backend/frontend repos contain implementation and pointers only, not copied product decisions.
+
+## Post-verify blocker remediation — 2026-06-09
+
+- [x] Add Strict TDD regression coverage for verify-code rolling `rate_limited` behavior before implementation.
+- [x] Enforce verify-code rolling rate limits by email, IP, and device using persisted `rate_limit_events` with `action: verify_code`.
+- [x] Preserve the existing per-code 5-attempt `too_many_attempts` cap while adding rolling verification limits above it.
+- [x] Audit email delivery state: Slice 1 requires a Swoosh-backed abstraction with local/test adapters and configurable production delivery; provider-specific SMTP credentials remain runtime configuration, not committed secrets.
+- [x] Add a local proof path for code sending through the development Swoosh mailbox at `/dev/mailbox` and document SMTP sandbox environment variables.
+- [x] Verify backend blocker remediation with focused auth tests, full `mix test`, and `mix precommit`.
