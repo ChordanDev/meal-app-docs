@@ -17,8 +17,8 @@ A user-facing onboarding flow where a new **User** intentionally creates an acco
 _Avoid_: Silent registration, implicit signup
 
 **Onboarding Profile**:
-The post-authentication setup data collected after account creation, including display name, restrictions, preferences, cooking skill, and household size.
-_Avoid_: Signup data
+The post-authentication setup data collected after account creation, including display name, household size, and cooking skill.
+_Avoid_: Signup data, dietary restrictions, dietary preferences
 
 **Account**:
 A billing and sharing container that can be individual or family-scoped.
